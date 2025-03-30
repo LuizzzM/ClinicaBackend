@@ -55,7 +55,7 @@
 ## 🚀 Comandos para Instalação
 1. Clone o repositório:
    ```bash
-   git clone <>
+   git clone https://github.com/LuizzzM/ClinicaBackend
    cd clinical-manager
    ```
 2. Copie o arquivo de exemplo `.env`:
