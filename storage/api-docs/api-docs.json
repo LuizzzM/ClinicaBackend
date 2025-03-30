@@ -1,0 +1,1472 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Gerenciamento Clinico",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login user",
+                "operationId": "a3b306d14572d1f4bd6c064b3233e7b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "test@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        },
+                                        "user": {
+                                            "$ref": "#/components/schemas/User"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout user",
+                "operationId": "fe8f3429cd6979b3b4517e186505f9f9",
+                "responses": {
+                    "200": {
+                        "description": "Successful logout",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logout realizado com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Get authenticated user",
+                "operationId": "9d9bc556f927575aa492a88c28fe5908",
+                "responses": {
+                    "200": {
+                        "description": "Authenticated user",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clients": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Listar clientes",
+                "description": "Retorna uma lista de clientes",
+                "operationId": "d00d20521584ab5da83e088abb7aded2",
+                "responses": {
+                    "200": {
+                        "description": "Lista de clientes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Client"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Criar cliente",
+                "description": "Cria um novo cliente",
+                "operationId": "f1e86e5b79fedfa6593067977292b13b",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreClientRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Cliente criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Client"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clients/{id}": {
+            "get": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Exibir cliente",
+                "description": "Retorna os dados de um cliente específico",
+                "operationId": "4c3c7071ea1133f04bacdbc70f8aa230",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do cliente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Client"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Atualizar cliente",
+                "description": "Atualiza os dados de um cliente específico",
+                "operationId": "7d0a5ae9e306858d30e04fc50265d80c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateClientRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cliente atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Client"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Clientes"
+                ],
+                "summary": "Excluir cliente",
+                "description": "Exclui um cliente específico",
+                "operationId": "c929f14f421a80a896c6fe116ffdc317",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do cliente",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Cliente excluído"
+                    }
+                }
+            }
+        },
+        "/api/exams": {
+            "get": {
+                "tags": [
+                    "Exames"
+                ],
+                "summary": "Listar exames",
+                "description": "Retorna uma lista de exames",
+                "operationId": "a54e05ebd2b23c9f2329a2a483272bc3",
+                "responses": {
+                    "200": {
+                        "description": "Lista de exames",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Exam"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Exames"
+                ],
+                "summary": "Criar exame",
+                "description": "Cria um novo exame",
+                "operationId": "fa2de658c3313746441306155597563e",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreExamRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Exame criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exam"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/exams/{id}": {
+            "get": {
+                "tags": [
+                    "Exames"
+                ],
+                "summary": "Exibir exame",
+                "description": "Retorna os dados de um exame específico",
+                "operationId": "5762ee3221f12d62693826bab5e66e2a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do exame",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exam"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Exames"
+                ],
+                "summary": "Atualizar exame",
+                "description": "Atualiza os dados de um exame específico",
+                "operationId": "d8b5e491c38a96d9bd5f9787cff42ab1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateExamRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Exame atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Exam"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Exames"
+                ],
+                "summary": "Excluir exame",
+                "description": "Exclui um exame específico",
+                "operationId": "61fff9ddd42647f37ba3b48f3c0ac233",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Exame excluído"
+                    }
+                }
+            }
+        },
+        "/api/exam-results": {
+            "get": {
+                "tags": [
+                    "Resultados de Exames"
+                ],
+                "summary": "Listar resultados de exames",
+                "description": "Retorna uma lista de resultados de exames",
+                "operationId": "cef213570cab27d189a06ca0f8a7f9f0",
+                "responses": {
+                    "200": {
+                        "description": "Lista de resultados de exames",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ExamResult"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Resultados de Exames"
+                ],
+                "summary": "Criar resultado de exame",
+                "description": "Cria um novo resultado de exame",
+                "operationId": "124e4e53544154f686050d75262c4658",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreExamResultRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Resultado de exame criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExamResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/exam-results/{id}": {
+            "get": {
+                "tags": [
+                    "Resultados de Exames"
+                ],
+                "summary": "Exibir resultado de exame",
+                "description": "Retorna os dados de um resultado de exame específico",
+                "operationId": "311415169521e5cb852b46f4f7473355",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do resultado de exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do resultado de exame",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExamResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Resultados de Exames"
+                ],
+                "summary": "Atualizar resultado de exame",
+                "description": "Atualiza os dados de um resultado de exame específico",
+                "operationId": "db835c96a26e40f7ca54009a5b48bf0b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do resultado de exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateExamResultRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Resultado de exame atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExamResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Resultados de Exames"
+                ],
+                "summary": "Excluir resultado de exame",
+                "description": "Exclui um resultado de exame específico",
+                "operationId": "a77a0970d9f672530b4e6fd4ea8fe5c1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do resultado de exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Resultado de exame excluído"
+                    }
+                }
+            }
+        },
+        "/api/exam-schedulings": {
+            "get": {
+                "tags": [
+                    "Agendamentos de Exames"
+                ],
+                "summary": "Listar agendamentos de exames",
+                "description": "Retorna uma lista de agendamentos de exames",
+                "operationId": "df6ebf1dc9d4799b181a167ebfb31e9a",
+                "responses": {
+                    "200": {
+                        "description": "Lista de agendamentos de exames",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ExamScheduling"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Agendamentos de Exames"
+                ],
+                "summary": "Criar agendamento de exame",
+                "description": "Cria um novo agendamento de exame",
+                "operationId": "f481ec5a9a9039834c804c3835fba499",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreExamSchedulingRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Agendamento de exame criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExamScheduling"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/exam-schedulings/{id}": {
+            "get": {
+                "tags": [
+                    "Agendamentos de Exames"
+                ],
+                "summary": "Exibir agendamento de exame",
+                "description": "Retorna os dados de um agendamento de exame específico",
+                "operationId": "3a021b53473a9476091f4cf8f5b56b47",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do agendamento de exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do agendamento de exame",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExamScheduling"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Agendamentos de Exames"
+                ],
+                "summary": "Atualizar agendamento de exame",
+                "description": "Atualiza os dados de um agendamento de exame específico",
+                "operationId": "fe55117daaef69abcbf203f938faabf9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do agendamento de exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateExamSchedulingRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Agendamento de exame atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ExamScheduling"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Agendamentos de Exames"
+                ],
+                "summary": "Excluir agendamento de exame",
+                "description": "Exclui um agendamento de exame específico",
+                "operationId": "9f368313e3b88c4f2c35c62043bee3e2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do agendamento de exame",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Agendamento de exame excluído"
+                    }
+                }
+            }
+        },
+        "/api/medics": {
+            "get": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Listar médicos",
+                "description": "Retorna uma lista de médicos",
+                "operationId": "aa3b4ebbad7b186a5cf5a399230166f4",
+                "responses": {
+                    "200": {
+                        "description": "Lista de médicos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Medic"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Criar médico",
+                "description": "Cria um novo médico",
+                "operationId": "08522a5ffeee36481ab47027e44fd209",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StoreMedicRequest"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Médico criado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Medic"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/medics/{id}": {
+            "get": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Exibir médico",
+                "description": "Retorna os dados de um médico específico",
+                "operationId": "ca82290fec96ee3f9cdbf49e4e6ea282",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do médico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Dados do médico",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Medic"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Atualizar médico",
+                "description": "Atualiza os dados de um médico específico",
+                "operationId": "c07a63b8664fdc8db77cf102ad0fefa5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do médico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/UpdateMedicRequest"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Médico atualizado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Medic"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Médicos"
+                ],
+                "summary": "Excluir médico",
+                "description": "Exclui um médico específico",
+                "operationId": "d19d4df17f6aa85a05ebf2fe2b2aa752",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do médico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Médico excluído"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Client": {
+                "title": "Cliente",
+                "description": "Modelo de Cliente",
+                "required": [
+                    "name",
+                    "cpf",
+                    "birth_date",
+                    "email"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID do cliente",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Nome do cliente",
+                        "type": "string"
+                    },
+                    "cpf": {
+                        "description": "CPF do cliente",
+                        "type": "string"
+                    },
+                    "birth_date": {
+                        "description": "Data de nascimento do cliente",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "email": {
+                        "description": "Email do cliente",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone": {
+                        "description": "Telefone do cliente",
+                        "type": "string"
+                    },
+                    "address": {
+                        "description": "Endereço do cliente",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Exam": {
+                "title": "Exame",
+                "description": "Modelo de Exame",
+                "required": [
+                    "name",
+                    "description"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID do exame",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Nome do exame",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "Descrição do exame",
+                        "type": "string"
+                    },
+                    "price": {
+                        "description": "Preço do exame",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "duration": {
+                        "description": "Duração do exame",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ExamResult": {
+                "title": "Resultado de Exame",
+                "description": "Modelo de Resultado de Exame",
+                "required": [
+                    "exam_scheduling_id",
+                    "result",
+                    "result_date"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID do resultado do exame",
+                        "type": "integer"
+                    },
+                    "exam_scheduling_id": {
+                        "description": "ID do agendamento do exame",
+                        "type": "integer"
+                    },
+                    "result": {
+                        "description": "Resultado do exame",
+                        "type": "string"
+                    },
+                    "observations": {
+                        "description": "Observações do exame",
+                        "type": "string"
+                    },
+                    "result_date": {
+                        "description": "Data do resultado do exame",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "ExamScheduling": {
+                "title": "Agendamento de Exame",
+                "description": "Modelo de Agendamento de Exame",
+                "required": [
+                    "client_id",
+                    "medic_id",
+                    "exam_id",
+                    "scheduled_date",
+                    "scheduled_time"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID do agendamento do exame",
+                        "type": "integer"
+                    },
+                    "client_id": {
+                        "description": "ID do cliente",
+                        "type": "integer"
+                    },
+                    "medic_id": {
+                        "description": "ID do médico",
+                        "type": "integer"
+                    },
+                    "exam_id": {
+                        "description": "ID do exame",
+                        "type": "integer"
+                    },
+                    "scheduled_date": {
+                        "description": "Data do agendamento",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "scheduled_time": {
+                        "description": "Hora do agendamento",
+                        "type": "string",
+                        "format": "time"
+                    },
+                    "times_rescheduled": {
+                        "description": "Número de vezes reagendado",
+                        "type": "integer"
+                    },
+                    "status": {
+                        "description": "Status do agendamento",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Medic": {
+                "title": "Médico",
+                "description": "Modelo de Médico",
+                "required": [
+                    "name",
+                    "email",
+                    "crm"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID do médico",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Nome do médico",
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Email do médico",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phone": {
+                        "description": "Telefone do médico",
+                        "type": "string"
+                    },
+                    "speciality": {
+                        "description": "Especialidade do médico",
+                        "type": "string"
+                    },
+                    "crm": {
+                        "description": "CRM do médico",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "description": "Data de criação",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "description": "Data de atualização",
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "requestBodies": {
+            "StoreClientRequest": {
+                "description": "Dados para criar um cliente",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Nome do cliente",
+                                    "type": "string"
+                                },
+                                "cpf": {
+                                    "description": "CPF do cliente",
+                                    "type": "string"
+                                },
+                                "birth_date": {
+                                    "description": "Data de nascimento do cliente",
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "email": {
+                                    "description": "Email do cliente",
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "phone": {
+                                    "description": "Telefone do cliente",
+                                    "type": "string"
+                                },
+                                "address": {
+                                    "description": "Endereço do cliente",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "StoreExamRequest": {
+                "description": "Dados para criar um exame",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Nome do exame",
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "description": "Descrição do exame",
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "description": "Preço do exame",
+                                    "type": "number",
+                                    "format": "float"
+                                },
+                                "duration": {
+                                    "description": "Duração do exame",
+                                    "type": "string",
+                                    "format": "time"
+                                },
+                                "icon": {
+                                    "description": "Ícone do exame",
+                                    "type": "string"
+                                },
+                                "color": {
+                                    "description": "Cor do exame",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "StoreExamResultRequest": {
+                "description": "Dados para criar um resultado de exame",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "exam_scheduling_id": {
+                                    "description": "ID do agendamento do exame",
+                                    "type": "integer"
+                                },
+                                "result": {
+                                    "description": "Resultado do exame",
+                                    "type": "string"
+                                },
+                                "observations": {
+                                    "description": "Observações do exame",
+                                    "type": "string"
+                                },
+                                "result_date": {
+                                    "description": "Data do resultado do exame",
+                                    "type": "string",
+                                    "format": "date"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "StoreExamSchedulingRequest": {
+                "description": "Dados para criar um agendamento de exame",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "client_id": {
+                                    "description": "ID do cliente",
+                                    "type": "integer"
+                                },
+                                "medic_id": {
+                                    "description": "ID do médico",
+                                    "type": "integer"
+                                },
+                                "exam_id": {
+                                    "description": "ID do exame",
+                                    "type": "integer"
+                                },
+                                "scheduled_date": {
+                                    "description": "Data do agendamento",
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "scheduled_time": {
+                                    "description": "Hora do agendamento",
+                                    "type": "string",
+                                    "format": "time"
+                                },
+                                "status": {
+                                    "description": "Status do agendamento",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "StoreMedicRequest": {
+                "description": "Dados para criar um médico",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Nome do médico",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "Email do médico",
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "phone": {
+                                    "description": "Telefone do médico",
+                                    "type": "string"
+                                },
+                                "speciality": {
+                                    "description": "Especialidade do médico",
+                                    "type": "string"
+                                },
+                                "crm": {
+                                    "description": "CRM do médico",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateClientRequest": {
+                "description": "Dados para atualizar um cliente",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Nome do cliente",
+                                    "type": "string"
+                                },
+                                "cpf": {
+                                    "description": "CPF do cliente",
+                                    "type": "string"
+                                },
+                                "birth_date": {
+                                    "description": "Data de nascimento do cliente",
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "email": {
+                                    "description": "Email do cliente",
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "phone": {
+                                    "description": "Telefone do cliente",
+                                    "type": "string"
+                                },
+                                "address": {
+                                    "description": "Endereço do cliente",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateExamRequest": {
+                "description": "Dados para atualizar um exame",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Nome do exame",
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "description": "Descrição do exame",
+                                    "type": "string"
+                                },
+                                "price": {
+                                    "description": "Preço do exame",
+                                    "type": "number",
+                                    "format": "float"
+                                },
+                                "duration": {
+                                    "description": "Duração do exame",
+                                    "type": "string",
+                                    "format": "time"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateExamResultRequest": {
+                "description": "Dados para atualizar um resultado de exame",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "exam_scheduling_id": {
+                                    "description": "ID do agendamento do exame",
+                                    "type": "integer"
+                                },
+                                "result": {
+                                    "description": "Resultado do exame",
+                                    "type": "string"
+                                },
+                                "observations": {
+                                    "description": "Observações do exame",
+                                    "type": "string"
+                                },
+                                "result_date": {
+                                    "description": "Data do resultado do exame",
+                                    "type": "string",
+                                    "format": "date"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateExamSchedulingRequest": {
+                "description": "Dados para atualizar um agendamento de exame",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "client_id": {
+                                    "description": "ID do cliente",
+                                    "type": "integer"
+                                },
+                                "medic_id": {
+                                    "description": "ID do médico",
+                                    "type": "integer"
+                                },
+                                "exam_id": {
+                                    "description": "ID do exame",
+                                    "type": "integer"
+                                },
+                                "scheduled_date": {
+                                    "description": "Data do agendamento",
+                                    "type": "string",
+                                    "format": "date"
+                                },
+                                "scheduled_time": {
+                                    "description": "Hora do agendamento",
+                                    "type": "string",
+                                    "format": "time"
+                                },
+                                "times_rescheduled": {
+                                    "description": "Número de vezes reagendado",
+                                    "type": "integer"
+                                },
+                                "status": {
+                                    "description": "Status do agendamento",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "UpdateMedicRequest": {
+                "description": "Dados para atualizar um médico",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "description": "Nome do médico",
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "description": "Email do médico",
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "phone": {
+                                    "description": "Telefone do médico",
+                                    "type": "string"
+                                },
+                                "speciality": {
+                                    "description": "Especialidade do médico",
+                                    "type": "string"
+                                },
+                                "crm": {
+                                    "description": "CRM do médico",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Clientes",
+            "description": "Clientes"
+        },
+        {
+            "name": "Exames",
+            "description": "Exames"
+        },
+        {
+            "name": "Resultados de Exames",
+            "description": "Resultados de Exames"
+        },
+        {
+            "name": "Agendamentos de Exames",
+            "description": "Agendamentos de Exames"
+        },
+        {
+            "name": "Médicos",
+            "description": "Médicos"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}
